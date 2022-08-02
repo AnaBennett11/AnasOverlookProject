@@ -1,0 +1,1 @@
+//tests the Customer class file
