@@ -4,13 +4,40 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <style> @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap');</style>
+  <title>Overlook</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
+<section>
+<section class="login-page" id="loginPage">
+<h1 class="login-title" id="loginTitle">Login to Book your next vacation!</h1>
+<form aria-label="login" class="login">
+  <section class="login-lables">
+    <label aria-label="user name">User Name:</label>
+    <label aria-label="User doesn't exist" class="error hidden" id="wrongUsername">User name doesn't exist. Please, try again.</label>
+  </section>
+  <input class="user-name" id="userName" type="text" id="name" name="name" maxLength="10" size="30">
+  <section class="login-lables">
+    <label aria-label="Password">Password:</label>
+    <label aria-label="Incorrect password" class="error hidden" id="wrongPassword">Wrong password. Please, try again.</label>
+  </section>
+  <input class="password" id="password" type="text" id="name" maxLength="15" size="30">
+  <button class="submit-info" id="submitInfo">Submit</button>
+</form>
+</section> 
+<section>
+  
+</section>
+</section>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 
 </body>
 </html>
+
+
+
+<!-- //section for the login prompt
+//section for the dashboard
+//section for bookings -->
