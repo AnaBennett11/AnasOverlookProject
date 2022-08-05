@@ -5,13 +5,14 @@
 import './css/styles.css';
 import Bookings from './classes/Bookings';
 import Customers from './classes/Customers';
-import Rooms from './classes/Rooms';
+import Room from './classes/Room';
 import Database from './apiCalls';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+import './images/overlook.png';
+import './images/overlook-hotel.jpg';
 
 
-console.log('This is the JavaScript entry file - your code begins here.');
+// console.log('This is the JavaScript entry file - your code begins here.');
 
 //instantiate your classes, get all your data, export your data to your dom file so you can update the dom 
 // so you're going to do alot of importing and exporting between the dom and the scripts file
@@ -19,15 +20,11 @@ console.log('This is the JavaScript entry file - your code begins here.');
 
 ///login functionality 
 
-//1. Dashboard(this goes in the scripts)
-// As a customer:
 
-// I should see a dashboard page that shows me:
-// Any room bookings I have made(past or upcoming)
-// The total amount I have spent on rooms
 testDataBaseClass();
-async function testDataBaseClass() {
 
+async function testDataBaseClass() {
+  
     alert('hi');
     var db = new Database();
 

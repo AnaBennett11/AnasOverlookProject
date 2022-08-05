@@ -9,27 +9,20 @@
 </head>
 <body>
 <section>
-<section class="login-page" id="loginPage">
-<h1 class="login-title" id="loginTitle">Login to Book your next vacation!</h1>
-<form aria-label="login" class="login">
-  <section class="login-lables">
-    <label aria-label="user name">User Name:</label>
-    <label aria-label="User doesn't exist" class="error hidden" id="wrongUsername">User name doesn't exist. Please, try again.</label>
-  </section>
-  <input class="user-name" id="userName" type="text" id="name" name="name" maxLength="10" size="30">
-  <section class="login-lables">
-    <label aria-label="Password">Password:</label>
-    <label aria-label="Incorrect password" class="error hidden" id="wrongPassword">Wrong password. Please, try again.</label>
-  </section>
-  <input class="password" id="password" type="text" id="name" maxLength="15" size="30">
-  <button class="submit-info" id="submitInfo">Submit</button>
-</form>
-</section> 
-<section class="everything hidden" id="everything">
+<div class="background-image-login hidden" style="background-image: url('../images/overlook.png');">
+<div class="logo"></div>
+<div class="login-block">
+  <h1 class="login">Login</h1>
+  <input type="text" value="" placeholder="Username" id="username" />
+  <input type="password" value="" placeholder="Password" id="password" />
+  <button class="submit-button">Submit</button>
+</div>
+</div>
+<section class="everything" id="everything">
   <section aria-label="Overlook Hotel Banner" class="banner">
-    <h1 aria-label="Overlook." class="overlook-title">Overlook.</h1>
+    <h1 aria-label="Overlook." class="overlook-title">Overlook Booking</h1>
     <section class ="user-welcome">
-      <p aria-label="Welcome" class="welcome" id="welcome"></p>
+      <p aria-label="Welcome" class="welcome" id="welcome">Welcome back, Ana!</p>
       <p aria-label="You have spent $555 this year on bookings" class="total-spent" id="totalSpent">You have spent $555 this year on bookings.</p>
     </section>
   </section>
@@ -41,15 +34,15 @@
     <button aria-label="Future Bookings" class="future-bookings-button" id="futureBookings">Future Bookings</button>
   </nav>
   <main>
-    <section aria-label="home" class="home-container" id="homeContainer">
+    <section aria-label="home" class="home-container hidden" id="homeContainer">
       <h2 class="home-title">You Enjoy Yourself</h2>
-      <img class="overlook-image" src= "../images/overlook.jpg" alt="Image of tropical hotel resort overlooking the the pool, the palm trees and the ocean">
+      <img class="overlook-image" src= "../images/overlook-hotel.jpg" alt="Image of tropical hotel resort overlooking the the pool, the palm trees and the ocean">
     </section>
-    <section aria-label="book a stay" class="booking-container hidden" id="bookingContainer">
+    <section aria-label="book a stay" class="booking-container" id="bookingContainer">
       <form aria-label="Booking Selections" class="booking-selection" id="bookingSelection">
         <h1 class="preferences" aria-label="Preferences">Preferences</h1>
         <label aria-label="Date of Stay" class="dateOfStayText">Date of Stay:</label>
-        <input aria-label="choose date" type="date" id="start" name="trip-start" value="YYYY-MM-DD">
+        <input aria-label="choose date" type="date" id="start" name="trip-start" value="yyyy-MM-dd">
         <label aria-label="room type"> Room Type:</label>
         <select name="room-type" id="roomType">
           <option aria-label="no preference" value="no preference">No Preference</option>
