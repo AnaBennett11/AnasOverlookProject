@@ -45,3 +45,5 @@ class Database {
 }
 
 export default Database;
+
+//# sourceURL=apiCalls.js
