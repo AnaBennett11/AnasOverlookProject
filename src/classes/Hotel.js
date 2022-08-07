@@ -3,12 +3,12 @@ class Hotel {
         this.allCustomers = customerInfo;
         this.allBookings = bookingInfo;
         this.allRooms = roomInfo;
-        this.roomAvailability = [];
+        this.roomAvailabilityByDate = [];
     }
 
     //check availabitliy by date
     getAvailabilityByDate(date) {
-        this.roomAvailability = this.allRooms//we want to intially set this array to all the rooms so we can check all of the rooms for availability adn the result will be pushed into that array
+        this.roomAvailabilityByDate = this.allRooms//we want to intially set this array to all the rooms so we can check all of the rooms for availability adn the result will be pushed into that array
         let filteredBookings = this.allBookings.filter((filteredBooking) => {
             return filteredBooking.date === date.split('-').join('/');
         })
@@ -21,11 +21,11 @@ class Hotel {
              return acc
             }, true)
         }
-        this.roomAvailability = this.roomAvailability.filter((room) => {
+        this.roomAvailabilityByDate = this.roomAvailabilityByDate.filter((room) => {
             return checkRoomAvailability(room)
         })
         
-        return this.roomAvailability
+        return this.roomAvailabilityByDate
     }
 
 

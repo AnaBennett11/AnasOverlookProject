@@ -152,3 +152,44 @@ form {
   justify-content: space-around;
 
 }
+
+.current-container {
+  display: flex;
+  flex-direction: row;
+  border: 4px solid rgb(0, 200, 255);
+  justify-content: space-evenly;
+  height: 100vh;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.current-booking-card {
+  border: 4px solid #61b3b7;
+  height: 324px;
+  width: 200px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 10px;
+}
+
+.hotel-image {
+  height: 163px;
+  width: 196px;
+  margin: 16px;
+  border-radius: 10px;
+}
+
+.booking-date {
+
+}
+
+.booking-room-type {
+
+}
+
+.booking-cost {
+
+}

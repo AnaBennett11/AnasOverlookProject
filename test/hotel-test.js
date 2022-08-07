@@ -22,12 +22,12 @@ describe('Hotel', function() {
         expect(hotel.allCustomers).to.equal(customers)
         expect(hotel.allBookings).to.equal(bookings)
         expect(hotel.allRooms).to.equal(rooms)
-        expect(hotel.roomAvailability).to.deep.equal([]);
+        expect(hotel.roomAvailabilityByDate).to.deep.equal([]);
     })
 
     it('should get rooms availability by date', function() {
         hotel.getAvailabilityByDate("2022/01/10")
-        expect(hotel.roomAvailability).to.deep.equal([
+        expect(hotel.roomAvailabilityByDate).to.deep.equal([
             {
                 number: 1,
                 roomType: 'residential suite',

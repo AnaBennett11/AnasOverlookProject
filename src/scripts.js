@@ -6,11 +6,13 @@ import './css/styles.css';
 import Booking from './classes/Booking';
 import Customer from './classes/Customer';
 import Room from './classes/Room';
-import { getCustomers, getCustomer, getBookings, getRooms, addBooking, deleteBooking} from './apiCalls';
+import Hotel from './classes/Hotel';
+import { getCustomers, getCustomer, getBookings, getRooms, addBooking} from './apiCalls';
 import { theDom } from './dom.js';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/overlook.png';
 import './images/overlook-hotel.jpg';
+import './images/hotel-room.jpg';
 
 
 
@@ -22,28 +24,29 @@ let futureBookingsButton = document.querySelector('.future-bookings-button');
 let submitButton = document.querySelector('.submit-button');
 let usernameInput = document.querySelector('#username');
 let passwordInput = document.querySelector('#password');
-let loginPage = document.querySelector('.background-image-login');
-let homeContainer = document.querySelector('.home-container');
+
 let customerName = document.querySelector('#customerName');
 let totalSpend = document.querySelector('#totalSpend');
-let pastBookings = document.querySelector('.past-container');
-let currentBookings = document.querySelector('.current-container');
-let currentBookingsButton = document.querySelector('.current-bookings-button');
+
+
+
 
 
 
 //event handlers
 window.addEventListener('load', (event) => { fetchAllData() });
 // submitButton.addEventListener('click', login);
-currentBookingsButton.addEventListener('click', () => { theDom.getCurrentBookings() });
+// currentBookingsButton.addEventListener('click', () => { theDom.getCurrentBookings() });
 
 //global variables
 let customer;
+let customers;
+let bookings;
 let allCustomers;
 export let booking;
 let room;
-let addAllBookings;
-let removeAllBookings;
+let addBookings;
+
 
 //instantiate your classes, get all your data, export your data to your dom file so you can update the dom 
 // so you're going to do alot of importing and exporting between the dom and the scripts file
@@ -51,30 +54,29 @@ let removeAllBookings;
 
 
 function fetchAllData() {
-    Promise.all([getCustomers(), getCustomer(4), getRooms(), getBookings(), addBooking({ "userID": 48, "date": "2019/09/23", "roomNumber": 4 }), deleteBooking()])
+    Promise.all([getCustomers(), getCustomer(4), getRooms(), getBookings(), addBooking({ "userID": 48, "date": "2019/09/23", "roomNumber": 4 })])
     .then(data => parseData(data))
 }
 
 function parseData(data) {
-    let customers = data[0];
-    console.log(customers)
-    let customer = data[1];
+    customers = data[0];
+    customer = data[1];
     console.log(customer)
-    let rooms = data[2];
-    let bookings = data[3];
-    let addBooking = data[4];
-    let removeBooking = data[5];
+    room = data[2];
+    bookings = data[3];
+    addBookings = data[4];
+   
 
-    instantiateClasses(customers, customer, rooms, bookings, addBooking, removeBooking)
+    instantiateClasses(customers, customer, room, bookings, addBooking)
 }
 
-function instantiateClasses(customers, customer, rooms, bookings, addBooking, removeBooking) {
+function instantiateClasses(customers, customer, rooms, bookings, addBooking) {
    customer = new Customer(customer)
    booking = new Booking(bookings)
    room = new Room(rooms)
    allCustomers = customers
-   addAllBookings = addBooking
-   removeAllBookings = removeBooking
+   addBookings = addBooking
+   
 
 }
 
