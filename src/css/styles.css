@@ -96,6 +96,7 @@ html {
 .background-image-login {
   height: 100vh;
   width: 100vw;
+  /* display: none; */
 }
 .overlook-image {
   align-items: center;

@@ -1,49 +1,42 @@
-// this is where api fetches go
-
-class Database {
-
-    constructor() {
-
+    export function getCustomers() {
+        return fetch('http://localhost:3001/api/v1/customers/')
+        .then(response => response.json())
+        .then(data => data);
     }
 
-    async getCustomers() {
-        let dataSet = await fetch('http://localhost:3001/api/v1/customers/');
-        return dataSet.json();
+    export function getCustomer(id) {
+        return fetch(`http://localhost:3001/api/v1/customers/${id}`)
+        .then(response => response.json())
+        .then(data => data);
     }
 
-    async getCustomer(id) {
-        let dataSet = await fetch(`http://localhost:3001/api/v1/customers/${id}`);
-        return dataSet.json();
+    export function getRooms() {
+        return fetch('http://localhost:3001/api/v1/rooms')
+        .then(response => response.json())
+        .then(data => data);
     }
 
-    async getRooms() {
-        let dataSet = await fetch('http://localhost:3001/api/v1/rooms');
-        return dataSet.json();
+    export function getBookings() {
+        return fetch('http://localhost:3001/api/v1/bookings')
+        .then(response => response.json())
+        .then(data => data);
     }
 
-    async getBookings() {
-        let dataSet = await fetch('http://localhost:3001/api/v1/bookings');
-        return dataSet.json();
-    }
-
-    async addBooking(newBooking) {
-        let dataSet = await fetch('http://localhost:3001/api/v1/bookings', {
+   export function addBooking(newBooking) {
+        return fetch('http://localhost:3001/api/v1/bookings', {
             method: 'POST',
             body: JSON.stringify(newBooking),
             headers: { "Content-type": "application/json; charset=UTF-8" }
-        });
-        return dataSet.json();
+        })
+        .then(response => response.json())
+        .then(data => data);
     }
 
-    async deleteBooking(id) {
-        let dataSet = await fetch(`http://localhost:3001/api/v1/bookings/${id}`, {
+    export function deleteBooking(id) {
+        return fetch(`http://localhost:3001/api/v1/bookings/${id}`, {
             method: 'DELETE'
-        });
-        return dataSet.json();
+        })
+        .then(response => response.json())
+        .then(data => data);
 
     }
-}
-
-export default Database;
-
-//# sourceURL=apiCalls.js

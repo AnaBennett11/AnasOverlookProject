@@ -1,38 +1,74 @@
-import Database from "../apiCalls";
+// import Database from "../apiCalls";
+
+import Booking from "./Booking";
 
 class Customer {
     constructor(customerDetails) {
       this.id = customerDetails.id;
       this.name = customerDetails.name;
-      //this.bookings = [];
+      this.bookings = [];
 
     }
 
-    async getTotalSpendings() {
-      //instantiate a database object
-      let dataBase = new Database()
-      //get all the bookings
-      let data = await dataBase.getBookings();
-      let bookings = data.bookings;
-     //get all the rooms
-      data = await dataBase.getRooms();
-      let rooms = data.rooms;
 
-      //we need to loop thru all the bookings
-      let myBookings = bookings.filter((booking) => {
-        console.log(booking, "line")
-        return booking.userID === this.id;
-      })
-      let totalSpend = 0;
-      myBookings.forEach((booking) => {
-        let foundRoom = rooms.find(r => r.number === booking.roomNumber);
-        if (!(foundRoom === undefined))
-        {
-          totalSpend = totalSpend + foundRoom.costPerNight;
-        }
-      });
 
-      return totalSpend;
+///get the customers booking history
+getCustomerBookingHistory(bookingInfo, roomInfo) {
+    this.bookings = bookingInfo
+      .filter(booking => booking.userID === this.id)
+        .map(item => new Booking(item))
+
+    this.bookings.forEach((booking) => {
+      booking.getRoomDetails(roomInfo)
+    })
+
+}
+
+getTotalSpent() {
+  let total = this.bookings.reduce((acc, booking) => {
+    acc += booking.roomDetails.costPerNight
+    return acc
+  }, 0)
+  return total
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // async getTotalSpendings() {
+    //   //instantiate a database object
+    //   let dataBase = new Database()
+    //   //get all the bookings
+    //   let data = await dataBase.getBookings();
+    //   let bookings = data.bookings;
+    //  //get all the rooms
+    //   data = await dataBase.getRooms();
+    //   let rooms = data.rooms;
+
+    //   //we need to loop thru all the bookings
+    //   let myBookings = bookings.filter((booking) => {
+    //     console.log(booking, "line")
+    //     return booking.userID === this.id;
+    //   })
+    //   let totalSpend = 0;
+    //   myBookings.forEach((booking) => {
+    //     let foundRoom = rooms.find(r => r.number === booking.roomNumber);
+    //     if (!(foundRoom === undefined))
+    //     {
+    //       totalSpend = totalSpend + foundRoom.costPerNight;
+    //     }
+    //   });
+
+    //   return totalSpend;
 
 
 
@@ -44,7 +80,7 @@ class Customer {
 // getPoints() {}
 
     //define method for login
-}
+
 
 // 1. Dashboard
 // As a customer:
