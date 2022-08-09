@@ -8,6 +8,12 @@ html {
   width: 100vw;
 }
 
+main {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;;
+}
+
 .hidden {
   display: none !important;
 }
@@ -93,16 +99,17 @@ html {
 .login-block button:hover {
   background: #ff7b81;
 }
+
 .background-image-login {
   height: 100vh;
   width: 100vw;
-  /* display: none; */
 }
+
 .overlook-image {
   align-items: center;
-  height: 40%;
-  width: 60%;
-  border-radius: 30px;
+    height: 73%;
+    width: 74%;
+    border-radius: 30px;
 }
 
 .banner {
@@ -113,11 +120,13 @@ html {
   background-color: #91ba93;
   width: 100vw;
 }
+
 nav {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+
 .home-container {
   display: flex;
   flex-direction: column;
@@ -157,7 +166,6 @@ form {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border: 4px solid rgb(0, 200, 255);
   justify-content: space-evenly;
   height: 100%;
   border-radius: 10px;
@@ -185,6 +193,6 @@ form {
 }
 
 .book-it-button {
- padding: 11px;
+ padding: 1px;
 
 }
