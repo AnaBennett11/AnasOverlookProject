@@ -9,16 +9,18 @@
 </head>
 <body>
 <section>
-<!-- <div class="background-image-login" style="background-image: url('../images/overlook.png');">
+<div class="background-image-login" style="background-image: url('../images/overlook.png');">
 <div class="logo"></div>
 <div class="login-block">
   <h1 class="login">Login</h1>
-  <input type="text" value="" placeholder="Username" id="username" />
-  <input type="password" value="" placeholder="Password" id="password" />
-  <button class="submit-button">Submit</button>
+  <form id="loginForm">
+    <input type="text" name="username" placeholder="Username" id="userName" required>
+    <input type="password" name="password" value="overlook2021" placeholder="Password" id="passWord" required>
+    <input type="submit" class="submit-button">Submit<input>
+  </form>
 </div>
-</div> -->
-<section class="everything" id="everything">
+</div>
+<section class="everything hidden" id="everything">
   <section aria-label="Overlook Hotel Banner" class="banner">
     <h1 aria-label="Overlook." class="overlook-title">Overlook Booking</h1>
     <section class ="user-welcome">
@@ -26,7 +28,7 @@
       <p aria-label="You have spent $555 this year on bookings" class="total-spent" id="totalSpent">You have spent $<span id="totalSpend">555</span> this year on bookings.</p>
     </section>
   </section>
-  <nav>
+  <nav class="buttons-area">
     <button aria-label="home" class="home-button" id="home">Home</button>
     <button aria-label="book a stay" class="book-a-stay-button" id="bookStay">Book A Stay</button>
     <button aria-label="Current Bookings" class="current-bookings-button" id="currentBookings">Current Bookings</button>

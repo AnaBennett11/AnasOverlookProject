@@ -15,10 +15,7 @@ class Booking {
     })
     
     this.roomDetails = new Room(matchingDetails)
-   
   }
-
-
-    
 }
+
 export default Booking;

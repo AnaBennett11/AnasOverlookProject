@@ -6,7 +6,7 @@ class Customer {
       this.name = customerDetails.name;
       this.bookings = [];
     }
-///get the customers booking history
+
 getCustomerBookingHistory(bookingInfo, roomInfo) {
     this.bookings = bookingInfo
       .filter(booking => booking.userID === this.id)
@@ -24,7 +24,6 @@ getTotalSpent() {
   }, 0)
   return total
 }
-
     }
  
 export default Customer;

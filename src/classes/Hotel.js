@@ -7,9 +7,9 @@ class Hotel {
         
     }
 
-    //check availabitliy by date
+    
     getAvailabilityByDate(date) {
-        this.roomAvailabilityByDate = this.allRooms//we want to intially set this array to all the rooms so we can check all of the rooms for availability adn the result will be pushed into that array
+        this.roomAvailabilityByDate = this.allRooms
         let filteredBookings = this.allBookings.filter((filteredBooking) => {
             return filteredBooking.date === date.split('-').join('/');
         })
@@ -32,18 +32,12 @@ class Hotel {
 
 
     filterAvailabilityByType(roomType) {
-        // const availableRooms = this.getAvailabilityByDate(date)
         if(roomType) {
             let roomsLeftByType = this.roomAvailabilityByDate.filter(availableRoom => {
-                console.log(availableRoom)
                 return availableRoom.roomType === roomType 
         })
-        console.log(roomsLeftByType)
          return roomsLeftByType
         }
-        
-       
-        
     }
 }
 

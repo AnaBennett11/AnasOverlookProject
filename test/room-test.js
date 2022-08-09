@@ -15,7 +15,6 @@ describe('Room', () => {
     })
 
     it('Should store info from room details', () => {
-        // console.log(room)
         expect(room.number).to.equal(rooms[0].number);
         expect(room.roomType).to.equal(rooms[0].roomType);
         expect(room.bidet).to.equal(rooms[0].bidet);

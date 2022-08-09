@@ -1,7 +1,4 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
 
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
 import dayjs from "dayjs"
 import Booking from './classes/Booking';
@@ -9,8 +6,7 @@ import Customer from './classes/Customer';
 import Room from './classes/Room';
 import Hotel from './classes/Hotel';
 import { getCustomers, getCustomer, getBookings, getRooms, addBooking} from './apiCalls';
-// import { theDom } from './dom.js';
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
+
 import './images/overlook.png';
 import './images/overlook-hotel.jpg';
 import './images/hotel-room.jpg';
@@ -22,24 +18,21 @@ let currentBookingsButton = document.querySelector('.current-bookings-button');
 let loginPage = document.querySelector('.background-image-login');
 let currentBookings = document.querySelector('.current-container');
 let homeContainer = document.querySelector('.home-container');
-let pastBookings = document.querySelector('.past-container');
-let futureBookings = document.querySelector('.future-container');
+
 let homeButton = document.querySelector('.home-button');
 let bookingContainer = document.querySelector('.booking-container');
 let calenderInput = document.getElementById('start');
 let roomTypeInput = document.getElementById('roomType');
 let roomTypeContainer = document.querySelector('.room-by-type-container')
-// let currentBookingCard = document.querySelector('.current-booking-card');
 let bookStayButton = document.querySelector('.book-a-stay-button');
-// let pastBookingsButton = document.querySelector('.past-bookings-button');
-// let futureBookingsButton = document.querySelector('.future-bookings-button');
-// let submitButton = document.querySelector('.submit-button');
-// let usernameInput = document.querySelector('#username');
-// let passwordInput = document.querySelector('#password');
+let submitButton = document.querySelector('.submit-button');
 let customerName = document.querySelector('#customerName');
 let totalSpend = document.querySelector('#totalSpend');
 let availableRoomsContainer = document.querySelector('.available-rooms-container');
 let form = document.querySelector('.booking-selection');
+let loginForm = document.getElementById('loginForm')
+let backgroundLogin = document.querySelector('.background-image-login');
+let everything = document.querySelector('.everything');
 
 
 
@@ -49,8 +42,6 @@ let form = document.querySelector('.booking-selection');
 
 
 
-//event handlers
-window.addEventListener('load', fetchAllData);
 
 currentBookingsButton.addEventListener('click', getCurrentBookings);
 homeButton.addEventListener('click', goHome);
@@ -67,8 +58,9 @@ roomTypeContainer.addEventListener('click', (event) => {
         return bookAvailableRoom(event);
     }
 });
-// submitButton.addEventListener('click', login);
-// roomTypeInput.addEventListener('change', () => {console.log('it changed')})
+
+loginForm.addEventListener('submit', login)
+
 
 
 
@@ -81,6 +73,7 @@ let allRooms;
 let hotel;
 let addBookings;
 let postedBookingData;
+let customerLoginInfo;
 
 
 
@@ -88,24 +81,28 @@ let postedBookingData;
 
 
 function fetchAllData() {
+
+    hideElement(backgroundLogin)
+    hideElement(currentBookings);
+    hideElement(roomTypeContainer)
+    showElement(everything)
+
+    
+    
     Promise.all([getCustomers(), getRooms(), getBookings()])
-    //getCustomer(4)
-    //addBooking({ "userID": 48, "date": "2019/09/23", "roomNumber": 4 }) add this back when you POST
-    .then(data => parseData(data))
+
+        .then(data => {
+            allCustomers = data[0].customers;
+            allRooms = data[1].rooms;
+            bookings = data[2].bookings;
+            hotel = new Hotel(allCustomers, allRooms, bookings)
+
+            displayUserName();
+        })
     
 }
 
-function parseData(data) {
-    allCustomers = data[0].customers;
-    // customer = data[1];
-    allRooms = data[1].rooms;
-    bookings = data[2].bookings;
-    // addBookings = data[4];
-    customer = new Customer(allCustomers[1])
-    hotel = new Hotel(allCustomers, allRooms, bookings)
 
-    displayUserName();
-}
 
 function showElement(element) {
     element.classList.remove('hidden');
@@ -132,19 +129,22 @@ function goHome() {
     hideElement(availableRoomsContainer)
     hideElement(roomTypeContainer)
     hideElement(form)
+    fetchAllData();
+
 }
 
 
 function getCurrentBookings() {
-  
-    // event.preventDefault()
-    // hideElement(loginPage)
+    
+    currentBookings.innerHTML='';
+    availableRoomsContainer.innerHTML ='';
+
     hideElement(homeContainer)
     hideElement(availableRoomsContainer)
     showElement(currentBookings)
     hideElement(roomTypeContainer);
 
-    // currentBookings.innerHTML += ``
+
     customer.getCustomerBookingHistory(bookings, allRooms)
     return customer.bookings.map((booking) => {
         currentBookings.innerHTML += 
@@ -155,20 +155,19 @@ function getCurrentBookings() {
                 <p class="booking-cost">${booking.roomDetails.costPerNight}</p>
             </section>`
     })
+
 }
  
 
-
-
-
 function filterByDate(event) {
-    // event.preventDefault();
+    event.preventDefault();
+    
     showElement(availableRoomsContainer)
     showElement(form)
     hideElement(homeContainer);
     hideElement(currentBookings);
     hideElement(roomTypeContainer)
-    // hideElement(bookingContainer);
+ 
     
     hotel.getAvailabilityByDate(event.target.value);
     if(!hotel.roomAvailabilityByDate.length) {
@@ -188,14 +187,13 @@ function filterByDate(event) {
     })
 }
 }
-//// <p class="booing-date">${availability.date}</p> ^^^^
+
 
 function filterByType(event) {
 
-  
+    availableRoomsContainer.innerHTML = '';
     hideElement(homeContainer);
     hideElement(currentBookings);
-    // hideElement(bookingContainer);
     showElement(roomTypeContainer);
     showElement(availableRoomsContainer);
     showElement(form);
@@ -203,8 +201,8 @@ function filterByType(event) {
   
 
     let filteredByType = hotel.filterAvailabilityByType(roomTypeInput.value);
-    availableRoomsContainer.innerHTML = ''
-    if(!hotel.filteredByType.length) {
+    
+    if(!filteredByType.length) {
         window.alert("Sorry, there aren't any available for that type. Please try again!")
     } else {
 
@@ -244,96 +242,45 @@ function bookAvailableRoom(event) {
     let fetchPromise = getBookings("bookings");
     Promise.all([newPost, fetchPromise])
     .then(response => {
-        console.log(response, "response")
+        window.alert("Your room is booked!")
         booking = new Booking(response[0])
     })
     .catch(err => console.log(err));
 }
 
 
+ function login(event) {
+    event.preventDefault();
+     customerLoginInfo = new FormData(event.target);
+    if(checkValidityOfCustomer(customerLoginInfo.get("username"))&& customerLoginInfo.get("password") === "overlook2021") {
+        fetch(`http://localhost:3001/api/v1/customers/${checkValidityOfCustomer(customerLoginInfo.get("username"))}`)
+        .then(response => response.json())
+        .then(response => {
+            console.log("response: ", response)
+            getTheCustomer(response)
+            fetchAllData(response)
+            customer = new Customer(response)
+        })
+        .catch(err => console.log(err))
+    } else {
+        window.alert("Invalid username or password, please try again.")
+        event.target.reset()
+    }
 
+}
 
+function checkValidityOfCustomer(customerName) {
+    console.log("customerName", customerName)
+    let customerSignInName = customerName.substring(0, 8);
+    let customerSignInId = customerName.substring(8);
+    if(customerSignInName === "customer" && parseInt(customerSignInId) < 51) {
+        return customerSignInId
+    } else {
+        return false
+    }
+}
 
-
-
-// async function login() {
-//     //the goal of this function is to validate the password and to store the validated user id in the global variable userID
-//     let dataBase = new Database();//instatiating the Database class
-//     let username = usernameInput.value;
-//     let pwd = passwordInput.value;
-//     let userId = username.substring(0, 8);
-//     let uid = username.substring(8);
-//     let theData;
-
-
-//     if (pwd === 'overlook2021' && userId === 'customer') {
-//        theData = await dataBase.getCustomer(uid);
-//        console.log(theData);
-//        if (theData.message === undefined)
-//        {
-//         customer = new Customer(theData);
-//             //  customer found. Successful login.
-//         hideElement(loginPage)
-//         showElement(everything)
-//         showElement(homeContainer)
-//         customerName.innerText = customer.name;
-//         let spendings = await customer.getTotalSpendings();
-//         totalSpend.innerText = spendings;
-//             // hide login section and show dashboard.
-//        }
-//        else
-//        {
-//             //  customer not found
-//            alert('login failed please try again');
-//        }
-//     } else {
-//         alert('login failed please try again');
-//     }
-
-//     console.log(username);
-//     console.log(pwd);
-//     console.log(userId);
-//     console.log(uid);
-// }
-
-// //testDataBaseClass();
-
-// async function testDataBaseClass() {
-  
-  
-//     var db = new Database();///the Database class encapsulates the fetch api functionality 
-
-//     var data = await db.getCustomers();
-//     var allCustomers = data.allCustomers;
-//     console.log(allCustomers);
-
-//     var data = await db.getCustomer(4);
-//     var customer = data;
-//     console.log(customer);
-
-//     var data = await db.getCustomer(999);
-//     var customer = data;
-//     console.log(customer);
-
-//     var data = await db.getRooms();
-//     var rooms = data.rooms;
-//     console.log(rooms);
-
-//     var data = await db.getBookings();
-//     var bookings = data.bookings;
-//     console.log(bookings);
-
-//     var newBooking = { "userID": 48, "date": "2023/09/23", "roomNumber": 4 };
-//     var data = await db.addBooking(newBooking);
-//     var booking = data.newBooking;
-//     console.log(booking);
-
-//     var bookingId = booking.id;
-//     var data = await db.deleteBooking(bookingId);
-//     console.log(data);
-
-
-
-// }
-
-// //# sourceURL=scripts.js
+function getTheCustomer(listOfCustomers) {
+    console.log("LIst of customers", listOfCustomers)
+    return new Customer(listOfCustomers)
+}
