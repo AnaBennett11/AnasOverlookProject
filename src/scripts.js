@@ -3,6 +3,7 @@
 
 // An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
+import dayjs from "dayjs"
 import Booking from './classes/Booking';
 import Customer from './classes/Customer';
 import Room from './classes/Room';
@@ -119,6 +120,7 @@ function displayUserName() {
     showElement(homeContainer)
     hideElement(currentBookings)
     hideElement(form)
+    customer.getCustomerBookingHistory(bookings, allRooms);
     customerName.innerText = `${customer.name}`
     totalSpend.innerText = `${customer.getTotalSpent().toFixed(2)}`
 }
@@ -169,6 +171,10 @@ function filterByDate(event) {
     // hideElement(bookingContainer);
     
     hotel.getAvailabilityByDate(event.target.value);
+    if(!hotel.roomAvailabilityByDate.length) {
+        window.alert("Sorry nothing here!")
+    } else {
+
     
     hotel.roomAvailabilityByDate.forEach((availability) => {
 
@@ -180,7 +186,7 @@ function filterByDate(event) {
                  <input type="submit" value="Book it" name="book-it-button" class="book-it-button" id="${availability.number}"></input>
             </section>`
     })
- 
+}
 }
 //// <p class="booing-date">${availability.date}</p> ^^^^
 
@@ -198,6 +204,9 @@ function filterByType(event) {
 
     let filteredByType = hotel.filterAvailabilityByType(roomTypeInput.value);
     availableRoomsContainer.innerHTML = ''
+    if(!hotel.filteredByType.length) {
+        window.alert("Sorry, there aren't any available for that type. Please try again!")
+    } else {
 
     filteredByType.forEach((room) => {
         console.log(room)
@@ -209,7 +218,7 @@ function filterByType(event) {
                 <input type="submit" value="Book it" name="book-it-button" class="book-it-button" id="${room.number}"></input>
             </section>`
     })
-
+    }
 }
 
 function bookARoom() {
@@ -222,8 +231,9 @@ function getPostedBookingData(event) {
     postedBookingData = new FormData(form);
     let newBookedRoom = { 
         userID: customer.id,
-        date: "2019/09/23", 
+        date: dayjs(postedBookingData.get('trip-start')).format('YYYY/MM/DD'), 
         roomNumber: parseInt(event.target.id)}
+        return newBookedRoom;
 
 }
 
