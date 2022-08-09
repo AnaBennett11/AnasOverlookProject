@@ -29,17 +29,33 @@
   <nav>
     <button aria-label="home" class="home-button" id="home">Home</button>
     <button aria-label="book a stay" class="book-a-stay-button" id="bookStay">Book A Stay</button>
-    <button aria-label="Past Bookings" class="past-bookings-button" id="pastBookings">Past Bookings</button>
     <button aria-label="Current Bookings" class="current-bookings-button" id="currentBookings">Current Bookings</button>
-    <button aria-label="Future Bookings" class="future-bookings-button" id="futureBookings">Future Bookings</button>
+    <!-- <button aria-label="Future Bookings" class="future-bookings-button" id="futureBookings">Future Bookings</button> -->
   </nav>
   <main>
     <section aria-label="home" class="home-container" id="homeContainer">
       <h2 class="home-title">You Enjoy Yourself</h2>
       <img class="overlook-image" src= "../images/overlook-hotel.jpg" alt="Image of tropical hotel resort overlooking the the pool, the palm trees and the ocean">
     </section>
-    <section aria-label="book a stay" class="booking-container hidden" id="bookingContainer">
-      <form aria-label="Booking Selections" class="booking-selection" id="bookingSelection">
+    <form aria-label="Booking Selections" class="booking-selection" id="bookingSelection">
+      <h1 class="preferences" aria-label="Preferences">Preferences</h1>
+      <label aria-label="Date of Stay" class="dateOfStayText">Date of Stay:</label>
+      <input aria-label="choose date" type="date" id="start" name="trip-start" value="yyyy-MM-dd">
+      <label aria-label="room type" for="roomType"> Room Type:</label>
+      <select type="dropdown" name="room-type" id="roomType" name="type">
+        <option aria-label="no preference" value="no preference">No Preference</option>
+        <option aria-label="single room" value="single room">Single Room</option>
+        <option aria-label="junior suite" value="junior suite">Junior Suite</option>
+        <option aria-label="suite" value="suite">Suite</option>
+        <option aria-label="residential" value="residential suite">Residential Suite</option>
+      </form>
+    <section aria-label="book a stay" class="booking-container" id="bookingContainer">
+        </select>
+        <!-- <input type="submit" class="submit" id="submit"> -->
+    </section>
+    <section aria-label="Available Rooms" class="available-rooms-container hidden" id="availableRoomsContainer"></section>
+    <section aria-label="book a stay" class="room-by-type-container hidden" id="roomTypeContainer">
+      <!-- <form aria-label="Booking Selections" class="booking-selection" id="bookingSelection">
         <h1 class="preferences" aria-label="Preferences">Preferences</h1>
         <label aria-label="Date of Stay" class="dateOfStayText">Date of Stay:</label>
         <input aria-label="choose date" type="date" id="start" name="trip-start" value="yyyy-MM-dd">
@@ -51,56 +67,12 @@
           <option aria-label="suite" value="suite">Suite</option>
           <option aria-label="residential" value="residential suite">Residential Suite</option>
         </select>
-        <label aria-label="bidet">Would you like a bidet?:</label>
-        <select name="bidet" id="bidet">
-          <option aria-label="no-preference" value="no preference">No Preference</option>
-          <option aria-label="true" value="true">Yes</option>
-          <option aria-label="false" value="false">No</option>
-        </select>
-        <label aria-label="bed size">Bed Size:</label>
-        <select name="bedSize" id="bedSize">
-          <option aria-label="no preference" value="no preference">No Preference</option>
-          <option aria-label="twin" value="twin">Twin</option>
-          <option aria-label="full" value="full">Full</option>
-          <option aria-label="queen" value="queen">Queen</option>
-          <option aria-label="king" value="king">King</option>
-        </select>
-        <label aria-label="bed size">Number of Beds:</label>
-        <select name="number of beds" id="bedNum">
-          <option aria-label="no preference" value="0">No Preference</option>
-          <option aria-label="one" value="1">1</option>
-          <option aria-label="two" value="2">2</option>
-        </select>
         <input type="submit" class="submit" id="submit">
       </form>
-      <section aria-label="Available Rooms" class="available-rooms-container" id="availableRoomsContainer"></section>
+      <section aria-label="Available Rooms" class="available-rooms-container" id="availableRoomsContainer"></section> -->
     </section>
     <section aria-label="past bookings" class="past-container hidden" id="pastContainer"></section>
     <section aria-label="current bookings" class="current-container hidden" id="currentContainer">
-      <section class="current-booking-card">
-        <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
-        <p class="booking-date">Date Booked</p>
-        <p class="booking-room-type">Room Type</p>
-        <p class="booking-cost">Cost</p>
-      </section>
-      <section class="current-booking-card">
-        <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
-        <p class="booking-date">Date Booked</p>
-        <p class="booking-room-type">Room Type</p>
-        <p class="booking-cost">Cost</p>
-      </section>
-      <section class="current-booking-card">
-        <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
-        <p class="booking-date">Date Booked</p>
-        <p class="booking-room-type">Room Type</p>
-        <p class="booking-cost">Cost</p>
-      </section>
-      <section class="current-booking-card">
-        <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
-        <p class="booking-date">Date Booked</p>
-        <p class="booking-room-type">Room Type</p>
-        <p class="booking-cost">Cost</p>
-      </section>
     </section>
     <section aria-label="future bookings" class="future-container hidden" id="futureContainer"></section>
   </main>

@@ -56,13 +56,14 @@ describe('Hotel', function() {
     })
 
     it('should be able to filter the available rooms by type', function() {
-        expect(hotel.filterAvailabilityByType("2022/01/10", "single room")).to.deep.equal([
+        hotel.getAvailabilityByDate('2022/02/06')
+        expect(hotel.filterAvailabilityByType("single room")).to.deep.equal([
             {
-                bedSize: 'queen',
+                bedSize: 'king',
                 bidet: false,
-                costPerNight: 429.44,
+                costPerNight: 491.14,
                 numBeds: 1,
-                number: 4,
+                number: 3,
                 roomType: 'single room',
                 
             }

@@ -30,13 +30,18 @@ class Hotel {
 
 
 
-    filterAvailabilityByType(date, roomType) {
-        const availableRooms = this.getAvailabilityByDate(date)
-        let roomsLeftByType = availableRooms.filter(availableRoom => {
-            return availableRoom.roomType === roomType 
+    filterAvailabilityByType(roomType) {
+        // const availableRooms = this.getAvailabilityByDate(date)
+        if(roomType) {
+            let roomsLeftByType = this.roomAvailabilityByDate.filter(availableRoom => {
+                console.log(availableRoom)
+                return availableRoom.roomType === roomType 
         })
+        console.log(roomsLeftByType)
+         return roomsLeftByType
+        }
         
-        return roomsLeftByType
+       
         
     }
 }

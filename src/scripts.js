@@ -8,7 +8,7 @@ import Customer from './classes/Customer';
 import Room from './classes/Room';
 import Hotel from './classes/Hotel';
 import { getCustomers, getCustomer, getBookings, getRooms, addBooking} from './apiCalls';
-import { theDom } from './dom.js';
+// import { theDom } from './dom.js';
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/overlook.png';
 import './images/overlook-hotel.jpg';
@@ -17,16 +17,30 @@ import './images/hotel-room.jpg';
 
 
 //query selectors
+let currentBookingsButton = document.querySelector('.current-bookings-button');
+let loginPage = document.querySelector('.background-image-login');
+let currentBookings = document.querySelector('.current-container');
+let homeContainer = document.querySelector('.home-container');
+let pastBookings = document.querySelector('.past-container');
+let futureBookings = document.querySelector('.future-container');
 let homeButton = document.querySelector('.home-button');
-let bookStayButton = document.querySelector('.book-a-stay-button');
-let pastBookingsButton = document.querySelector('.past-bookings-button');
-let futureBookingsButton = document.querySelector('.future-bookings-button');
-let submitButton = document.querySelector('.submit-button');
-let usernameInput = document.querySelector('#username');
-let passwordInput = document.querySelector('#password');
-
+let bookingContainer = document.querySelector('.booking-container');
+let calenderInput = document.getElementById('start');
+let roomTypeInput = document.getElementById('roomType');
+let roomTypeContainer = document.querySelector('.room-by-type-container')
+// let currentBookingCard = document.querySelector('.current-booking-card');
+// let bookStayButton = document.querySelector('.book-a-stay-button');
+// let pastBookingsButton = document.querySelector('.past-bookings-button');
+// let futureBookingsButton = document.querySelector('.future-bookings-button');
+// let submitButton = document.querySelector('.submit-button');
+// let usernameInput = document.querySelector('#username');
+// let passwordInput = document.querySelector('#password');
 let customerName = document.querySelector('#customerName');
 let totalSpend = document.querySelector('#totalSpend');
+let availableRoomsContainer = document.querySelector('.available-rooms-container');
+let form = document.querySelector('.booking-selection');
+
+
 
 
 
@@ -34,49 +48,146 @@ let totalSpend = document.querySelector('#totalSpend');
 
 
 //event handlers
-window.addEventListener('load', (event) => { fetchAllData() });
+window.addEventListener('load', fetchAllData);
+
+currentBookingsButton.addEventListener('click', getCurrentBookings);
+homeButton.addEventListener('click', goHome);
+calenderInput.addEventListener('change', filterByDate)
+roomTypeInput.addEventListener('change', filterByType)
 // submitButton.addEventListener('click', login);
-// currentBookingsButton.addEventListener('click', () => { theDom.getCurrentBookings() });
+// roomTypeInput.addEventListener('change', () => {console.log('it changed')})
+
+
 
 //global variables
 let customer;
-let customers;
-let bookings;
 let allCustomers;
-export let booking;
-let room;
+let bookings;
+let booking;
+let allRooms;
+let hotel;
 let addBookings;
 
 
-//instantiate your classes, get all your data, export your data to your dom file so you can update the dom 
-// so you're going to do alot of importing and exporting between the dom and the scripts file
+
 
 
 
 function fetchAllData() {
-    Promise.all([getCustomers(), getCustomer(4), getRooms(), getBookings(), addBooking({ "userID": 48, "date": "2019/09/23", "roomNumber": 4 })])
+    Promise.all([getCustomers(), getRooms(), getBookings()])
+    //getCustomer(4)
+    //addBooking({ "userID": 48, "date": "2019/09/23", "roomNumber": 4 }) add this back when you POST
     .then(data => parseData(data))
+    
 }
 
 function parseData(data) {
-    customers = data[0];
-    customer = data[1];
-    console.log(customer)
-    room = data[2];
-    bookings = data[3];
-    addBookings = data[4];
-   
+    allCustomers = data[0].customers;
+    // customer = data[1];
+    allRooms = data[1].rooms;
+    bookings = data[2].bookings;
+    // addBookings = data[4];
+    customer = new Customer(allCustomers[1])
+    hotel = new Hotel(allCustomers, allRooms, bookings)
 
-    instantiateClasses(customers, customer, room, bookings, addBooking)
+    displayUserName();
 }
 
-function instantiateClasses(customers, customer, rooms, bookings, addBooking) {
-   customer = new Customer(customer)
-   booking = new Booking(bookings)
-   room = new Room(rooms)
-   allCustomers = customers
-   addBookings = addBooking
+
+function displayUserName() {
+    showElement(homeContainer)
+    hideElement(currentBookings)
+    customerName.innerText = `${customer.name}`
+}
+
+
+function getCurrentBookings() {
+  
+    // event.preventDefault()
+    // hideElement(loginPage)
+    hideElement(homeContainer)
+    hideElement(availableRoomsContainer)
+    showElement(currentBookings)
+    hideElement(roomTypeContainer);
+
+    // currentBookings.innerHTML += ``
+    customer.getCustomerBookingHistory(bookings, allRooms)
+    totalSpend.innerText = `${customer.getTotalSpent().toFixed(2)}`
+    return customer.bookings.map((booking) => {
+        currentBookings.innerHTML += 
+        `<section class="current-booking-card">
+            <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
+                <p class="booking-date">${booking.date}</p>
+                <p class="booking-room-type">${booking.roomDetails.roomType}</p>
+                <p class="booking-cost">${booking.roomDetails.costPerNight}</p>
+            </section>`
+    })
+}
+ 
+
+function showElement(element) {
+    element.classList.remove('hidden');
+}
+
+function hideElement(element) {
+    element.classList.add('hidden');
+}
+
+function goHome() {
+    showElement(homeContainer)
+    hideElement(bookingContainer)
+    hideElement(currentBookings)
+    hideElement(availableRoomsContainer)
+    hideElement(roomTypeContainer)
+    hideElement(form)
+}
+
+function filterByDate(event) {
+    // event.preventDefault();
+    showElement(availableRoomsContainer)
+    showElement(form)
+    hideElement(homeContainer);
+    hideElement(currentBookings);
+    hideElement(roomTypeContainer)
+    // hideElement(bookingContainer);
+    
+    hotel.getAvailabilityByDate(event.target.value);
+    hotel.roomAvailabilityByDate.forEach((availability) => {
+
+        availableRoomsContainer.innerHTML += `<section class="current-booking-card">
+            <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
+                <p class="booking-date">${availability.roomType}</p>
+                <p class="booking-room-type">${availability.bedSize}</p>
+                <p class="booking-cost">${availability.costPerNight}</p>
+            </section>`
+    })
+ 
+}
+//// <p class="booing-date">${availability.date}</p> ^^^^
+
+function filterByType(event) {
+
+  
+    hideElement(homeContainer);
+    hideElement(currentBookings);
+    // hideElement(bookingContainer);
+    showElement(roomTypeContainer);
+    showElement(availableRoomsContainer);
+    showElement(form);
+    
+  
+
+    let filteredByType = hotel.filterAvailabilityByType(roomTypeInput.value);
    
+    filteredByType.forEach((room) => {
+        availableRoomsContainer.innerHTML = ''
+        availableRoomsContainer.innerHTML += `<section class="current-booking-card">
+            <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
+                <p class="booking-date">${room.roomType}</p>
+                <p class="booking-room-type">${room.bedSize}</p>
+                <p class="booking-cost">${room.costPerNight}</p>
+            </section>`
+    })
 
 }
 
@@ -134,8 +245,8 @@ function instantiateClasses(customers, customer, rooms, bookings, addBooking) {
 //     var db = new Database();///the Database class encapsulates the fetch api functionality 
 
 //     var data = await db.getCustomers();
-//     var customers = data.customers;
-//     console.log(customers);
+//     var allCustomers = data.allCustomers;
+//     console.log(allCustomers);
 
 //     var data = await db.getCustomer(4);
 //     var customer = data;

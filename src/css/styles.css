@@ -153,12 +153,13 @@ form {
 
 }
 
-.current-container {
+.current-container, .booking-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   border: 4px solid rgb(0, 200, 255);
   justify-content: space-evenly;
-  height: 100vh;
+  height: 100%;
   border-radius: 10px;
   margin: 10px;
 }
@@ -174,6 +175,7 @@ form {
   align-items: center;
   margin: 10px;
 }
+
 
 .hotel-image {
   height: 163px;
