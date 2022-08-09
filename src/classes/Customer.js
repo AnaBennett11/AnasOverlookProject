@@ -1,8 +1,30 @@
-//Customer class
+import Booking from "./Booking";
 
-// 1. Dashboard
-// As a customer:
+class Customer {
+    constructor(customerDetails) {
+      this.id = customerDetails.id;
+      this.name = customerDetails.name;
+      this.bookings = [];
+    }
+///get the customers booking history
+getCustomerBookingHistory(bookingInfo, roomInfo) {
+    this.bookings = bookingInfo
+      .filter(booking => booking.userID === this.id)
+        .map(item => new Booking(item))
 
-// I should see a dashboard page that shows me:
-// Any room bookings I have made(past or upcoming)
-// The total amount I have spent on rooms
+    this.bookings.forEach((booking) => {
+      booking.getRoomDetails(roomInfo)
+    })
+}
+
+getTotalSpent() {
+  let total = this.bookings.reduce((acc, booking) => {
+    acc += booking.roomDetails.costPerNight
+    return acc
+  }, 0)
+  return total
+}
+
+    }
+ 
+export default Customer;
