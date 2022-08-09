@@ -153,7 +153,7 @@ form {
 
 }
 
-.current-container, .booking-container {
+.current-container, .booking-container, .available-rooms-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -184,14 +184,7 @@ form {
   border-radius: 10px;
 }
 
-.booking-date {
-
-}
-
-.booking-room-type {
-
-}
-
-.booking-cost {
+.book-it-button {
+ padding: 11px;
 
 }

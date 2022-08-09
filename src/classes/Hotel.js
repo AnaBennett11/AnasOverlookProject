@@ -4,6 +4,7 @@ class Hotel {
         this.allBookings = bookingInfo;
         this.allRooms = roomInfo;
         this.roomAvailabilityByDate = [];
+        
     }
 
     //check availabitliy by date

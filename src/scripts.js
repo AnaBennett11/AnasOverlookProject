@@ -29,7 +29,7 @@ let calenderInput = document.getElementById('start');
 let roomTypeInput = document.getElementById('roomType');
 let roomTypeContainer = document.querySelector('.room-by-type-container')
 // let currentBookingCard = document.querySelector('.current-booking-card');
-// let bookStayButton = document.querySelector('.book-a-stay-button');
+let bookStayButton = document.querySelector('.book-a-stay-button');
 // let pastBookingsButton = document.querySelector('.past-bookings-button');
 // let futureBookingsButton = document.querySelector('.future-bookings-button');
 // let submitButton = document.querySelector('.submit-button');
@@ -47,6 +47,7 @@ let form = document.querySelector('.booking-selection');
 
 
 
+
 //event handlers
 window.addEventListener('load', fetchAllData);
 
@@ -54,6 +55,17 @@ currentBookingsButton.addEventListener('click', getCurrentBookings);
 homeButton.addEventListener('click', goHome);
 calenderInput.addEventListener('change', filterByDate)
 roomTypeInput.addEventListener('change', filterByType)
+bookStayButton.addEventListener('click', bookARoom)
+availableRoomsContainer.addEventListener('click', (event) => {
+    if (event.target.classList == 'book-it-button') {
+        return bookAvailableRoom(event);
+    }
+});
+roomTypeContainer.addEventListener('click', (event) => {
+    if (event.target.classList == 'book-it-button') {
+        return bookAvailableRoom(event);
+    }
+});
 // submitButton.addEventListener('click', login);
 // roomTypeInput.addEventListener('change', () => {console.log('it changed')})
 
@@ -67,6 +79,7 @@ let booking;
 let allRooms;
 let hotel;
 let addBookings;
+let postedBookingData;
 
 
 
@@ -93,11 +106,30 @@ function parseData(data) {
     displayUserName();
 }
 
+function showElement(element) {
+    element.classList.remove('hidden');
+}
+
+function hideElement(element) {
+    element.classList.add('hidden');
+}
+
 
 function displayUserName() {
     showElement(homeContainer)
     hideElement(currentBookings)
+    hideElement(form)
     customerName.innerText = `${customer.name}`
+    totalSpend.innerText = `${customer.getTotalSpent().toFixed(2)}`
+}
+
+function goHome() {
+    showElement(homeContainer)
+    hideElement(bookingContainer)
+    hideElement(currentBookings)
+    hideElement(availableRoomsContainer)
+    hideElement(roomTypeContainer)
+    hideElement(form)
 }
 
 
@@ -112,7 +144,6 @@ function getCurrentBookings() {
 
     // currentBookings.innerHTML += ``
     customer.getCustomerBookingHistory(bookings, allRooms)
-    totalSpend.innerText = `${customer.getTotalSpent().toFixed(2)}`
     return customer.bookings.map((booking) => {
         currentBookings.innerHTML += 
         `<section class="current-booking-card">
@@ -125,22 +156,8 @@ function getCurrentBookings() {
 }
  
 
-function showElement(element) {
-    element.classList.remove('hidden');
-}
 
-function hideElement(element) {
-    element.classList.add('hidden');
-}
 
-function goHome() {
-    showElement(homeContainer)
-    hideElement(bookingContainer)
-    hideElement(currentBookings)
-    hideElement(availableRoomsContainer)
-    hideElement(roomTypeContainer)
-    hideElement(form)
-}
 
 function filterByDate(event) {
     // event.preventDefault();
@@ -152,6 +169,7 @@ function filterByDate(event) {
     // hideElement(bookingContainer);
     
     hotel.getAvailabilityByDate(event.target.value);
+    
     hotel.roomAvailabilityByDate.forEach((availability) => {
 
         availableRoomsContainer.innerHTML += `<section class="current-booking-card">
@@ -159,6 +177,7 @@ function filterByDate(event) {
                 <p class="booking-date">${availability.roomType}</p>
                 <p class="booking-room-type">${availability.bedSize}</p>
                 <p class="booking-cost">${availability.costPerNight}</p>
+                 <input type="submit" value="Book it" name="book-it-button" class="book-it-button" id="${availability.number}"></input>
             </section>`
     })
  
@@ -178,17 +197,47 @@ function filterByType(event) {
   
 
     let filteredByType = hotel.filterAvailabilityByType(roomTypeInput.value);
-   
+    availableRoomsContainer.innerHTML = ''
+
     filteredByType.forEach((room) => {
-        availableRoomsContainer.innerHTML = ''
+        console.log(room)
         availableRoomsContainer.innerHTML += `<section class="current-booking-card">
             <img class="hotel-image" src='./images/hotel-room.jpg' alt="hotel-room-image">
                 <p class="booking-date">${room.roomType}</p>
                 <p class="booking-room-type">${room.bedSize}</p>
                 <p class="booking-cost">${room.costPerNight}</p>
+                <input type="submit" value="Book it" name="book-it-button" class="book-it-button" id="${room.number}"></input>
             </section>`
     })
 
+}
+
+function bookARoom() {
+    hideElement(homeContainer);
+    showElement(form)
+    hideElement(currentBookings)
+}
+
+function getPostedBookingData(event) {
+    postedBookingData = new FormData(form);
+    let newBookedRoom = { 
+        userID: customer.id,
+        date: "2019/09/23", 
+        roomNumber: parseInt(event.target.id)}
+
+}
+
+function bookAvailableRoom(event) {
+    event.preventDefault();
+    let newBookingData = getPostedBookingData(event);
+    let newPost = addBooking(newBookingData);
+    let fetchPromise = getBookings("bookings");
+    Promise.all([newPost, fetchPromise])
+    .then(response => {
+        console.log(response, "response")
+        booking = new Booking(response[0])
+    })
+    .catch(err => console.log(err));
 }
 
 
