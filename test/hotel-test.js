@@ -53,7 +53,11 @@ describe('Hotel', function() {
                 costPerNight: 429.44
             }
         ])
+        hotel.getAvailabilityByDate('2025/12/05')
+        expect(hotel.roomAvailabilityByDate).to.deep.equal([])
+        
     })
+  
 
     it('should be able to filter the available rooms by type', function() {
         hotel.getAvailabilityByDate('2022/02/06')
@@ -70,4 +74,6 @@ describe('Hotel', function() {
         ]
 )
     })
+    
+    
 })
